@@ -36,6 +36,7 @@ struct ContentView: View {
                     }
                 }
                 .drawingGroup()
+//                .background(Color.red)
                 
                 Button(action: {
                     if k % 5 == 0 {
@@ -51,7 +52,7 @@ struct ContentView: View {
                     }
                     k += 1
                 }, label: {
-                    Text("Fall")
+                    Text("Change")
                 })
                 Spacer()
             }.onAppear {

@@ -20,15 +20,15 @@ class Particle: Identifiable {
     private var velocity: Vector2D
     private var acceleration: Vector2D
     
-    var maxSpeed: CGFloat = 40
-    var maxForce: CGFloat = 100
+    var maxSpeed: CGFloat = 20
+    var maxForce: CGFloat = 2
     
     init(position: Vector2D, target: Vector2D) {
         self.position = Vector2D(x: position.x, y: position.y)
         self.originalTarget = Vector2D(x: target.x, y: target.y)
         self.currentTarget = Vector2D(x: target.x, y: target.y)
-        self.velocity = Vector2D()
-        self.acceleration = Vector2D()
+        self.velocity = Vector2D.zero()
+        self.acceleration = Vector2D.zero()
     }
     
     func apply(force: Vector2D) {
@@ -46,6 +46,19 @@ class Particle: Identifiable {
         let steer = Vector2D.Subtract(desired, velocity)
         steer.limit(max: maxForce)
         apply(force: steer)
+    }
+    
+    
+    func runAway(from point: Vector2D) {
+        let desired = Vector2D.Subtract(point, position)
+        let distance = desired.magnitude()
+        if distance < 50 {
+            desired.setMagnitude(scalar: self.maxSpeed)
+            desired.multiply(scalar: -1)
+            let steer = Vector2D.Subtract(desired, velocity)
+            steer.limit(max: maxForce)
+            apply(force: steer)
+        }
     }
     
     func update(){
@@ -80,11 +93,19 @@ class ParticleDriver: ObservableObject {
     var systemSize: CGSize = .init(width: 1000, height: 1000)
     
     var totalTargets: Int {
-        var total = 0
+//        var total = 0
+//        for (key, _) in targets {
+//            total += targets[key]?.count ?? 0
+//        }
+//        return total
+        var maxTargets = 0
         for (key, _) in targets {
-            total += targets[key]?.count ?? 0
+            let targetCount = targets[key]?.count ?? 0
+            if(maxTargets < targetCount){
+                maxTargets = targetCount
+            }
         }
-        return total
+        return maxTargets
     }
     
     init(){
@@ -97,12 +118,13 @@ class ParticleDriver: ObservableObject {
     
     func addTarget(key: String, image: UIImage){
         let pixels = image.getPixels()
+        let offset = systemSize.width / 2 - image.size.width / 2
         var newTargets = [Vector2D]()
         for x in 0 ..< pixels.count {
             for y in 0 ..< pixels[x].count {
                 let alpha = pixels[x][y]
                 if(alpha > 20) {
-                    let target = Vector2D(x: CGFloat(x+24), y: CGFloat(y))
+                    let target = Vector2D(x: CGFloat(CGFloat(x)+offset), y: CGFloat(y))
                     newTargets.append(target)
                 }
             }
@@ -137,10 +159,7 @@ class ParticleDriver: ObservableObject {
         guard let targets = targets[key] else {
             fatalError("Key not found")
         }
-//        particles.forEach { particle in
-//            particle.scatter(lower: 0, upper: 400)
-////            particle.resetTarget()
-//        }
+
         self.particles.forEach { particle in
             particle.scatter(lower: systemSize.height * -2, upper: systemSize.height * 2)
 //            particle.resetTarget()
@@ -158,6 +177,10 @@ class ParticleDriver: ObservableObject {
         particles.forEach { particle in
             particle.scatter(lower: 0, upper: systemSize.height)
         }
+    }
+    
+    func disort() {
+        
     }
     
     

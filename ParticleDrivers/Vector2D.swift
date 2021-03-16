@@ -13,7 +13,7 @@ class Vector2D {
     var x: CGFloat
     var y: CGFloat
     
-    init(x: CGFloat = 0, y: CGFloat = 0) {
+    init(x: CGFloat, y: CGFloat) {
         self.x = x
         self.y = y
     }
@@ -64,6 +64,9 @@ class Vector2D {
     
     
     //MARK: - Static functions
+    static func zero() -> Vector2D {
+        return Vector2D(x: 0, y: 0)
+    }
     
     static func Random(lower: CGFloat = 0, upper: CGFloat = 100) -> Vector2D {
         return Vector2D(x: CGFloat.random(in:lower..<upper), y: CGFloat.random(in: lower..<upper))
