@@ -8,96 +8,24 @@
 import UIKit
 import Combine
 
-
-
-class Particle: Identifiable {
-    
-    let id = UUID()
-    public var position: Vector2D
-    public var currentTarget: Vector2D
-    
-    private var originalTarget: Vector2D
-    private var velocity: Vector2D
-    private var acceleration: Vector2D
-    
-    var maxSpeed: CGFloat = 20
-    var maxForce: CGFloat = 2
-    
-    init(position: Vector2D, target: Vector2D) {
-        self.position = Vector2D(x: position.x, y: position.y)
-        self.originalTarget = Vector2D(x: target.x, y: target.y)
-        self.currentTarget = Vector2D(x: target.x, y: target.y)
-        self.velocity = Vector2D.zero()
-        self.acceleration = Vector2D.zero()
-    }
-    
-    func apply(force: Vector2D) {
-        self.acceleration.add(vector: force)
-    }
-    
-    func steer() {
-        let desired = Vector2D.Subtract(currentTarget, position)
-        let distance = desired.magnitude()
-        var speed = maxSpeed;
-        if distance < 100 {
-            speed = map(distance, 0, 100, 0, maxSpeed)
-        }
-        desired.setMagnitude(scalar: speed)
-        let steer = Vector2D.Subtract(desired, velocity)
-        steer.limit(max: maxForce)
-        apply(force: steer)
-    }
-    
-    
-    func runAway(from point: Vector2D) {
-        let desired = Vector2D.Subtract(point, position)
-        let distance = desired.magnitude()
-        if distance < 50 {
-            desired.setMagnitude(scalar: self.maxSpeed)
-            desired.multiply(scalar: -1)
-            let steer = Vector2D.Subtract(desired, velocity)
-            steer.limit(max: maxForce)
-            apply(force: steer)
-        }
-    }
-    
-    func update(){
-        self.position.add(vector: self.velocity)
-        self.velocity.add(vector: self.acceleration)
-        self.acceleration.multiply(scalar: 0)
-    }
-    
-    func scatter(lower: CGFloat, upper: CGFloat){
-        currentTarget = Vector2D.Random(lower: lower, upper: upper)
-//        currentTarget = Vector2D(x: CGFloat.random(in: lower ..< upper), y: upper)
-    }
-    
-    func resetTarget(){
-        currentTarget = Vector2D(x: originalTarget.x, y: originalTarget.y)
-    }
-    
-    func changeTarget(target: Vector2D) {
-        currentTarget = Vector2D(x: target.x, y: target.y)
-    }
-    
+enum ParticleSpreadMode {
+    case fall, scatter
 }
 
 class ParticleDriver: ObservableObject {
     
     @Published var particles: [Particle]
+    var isDragging = false
+    var draggedLocation = CGPoint.zero
+    
     var displayLink: CADisplayLink?
-    var isFallen = false
+    var spreadMode = ParticleSpreadMode.scatter
     
     var targets = [String: [Vector2D]]()
     
     var systemSize: CGSize = .init(width: 1000, height: 1000)
     
     var totalTargets: Int {
-//        var total = 0
-//        for (key, _) in targets {
-//            total += targets[key]?.count ?? 0
-//        }
-//        return total
         var maxTargets = 0
         for (key, _) in targets {
             let targetCount = targets[key]?.count ?? 0
@@ -132,7 +60,7 @@ class ParticleDriver: ObservableObject {
         if(newTargets.count > totalTargets) {
             let particlesNeeded = newTargets.count - totalTargets
             for _ in 0 ..< particlesNeeded {
-                particles.append(Particle(position: Vector2D.Random(lower: 0, upper: 400), target: Vector2D(x: CGFloat.random(in: 0..<systemSize.width), y: systemSize.height)))
+                particles.append(Particle(position: Vector2D.Random(lower: 0, upper: systemSize.width), target: Vector2D(x: CGFloat.random(in: 0..<systemSize.width), y: systemSize.height)))
             }
         }
         
@@ -150,6 +78,9 @@ class ParticleDriver: ObservableObject {
     @objc func update(displayLink: CADisplayLink){
         particles.forEach { (particle) in
             particle.steer()
+            if isDragging {
+                particle.runAway(from: Vector2D(cgPoint: draggedLocation))
+            }
             particle.update()
         }
         self.objectWillChange.send()
@@ -161,8 +92,11 @@ class ParticleDriver: ObservableObject {
         }
 
         self.particles.forEach { particle in
-            particle.scatter(lower: systemSize.height * -2, upper: systemSize.height * 2)
-//            particle.resetTarget()
+            if spreadMode == .fall {
+                particle.resetTarget()
+            }else {            
+                particle.scatter(lower: -systemSize.height, upper: systemSize.height)
+            }
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -178,10 +112,4 @@ class ParticleDriver: ObservableObject {
             particle.scatter(lower: 0, upper: systemSize.height)
         }
     }
-    
-    func disort() {
-        
-    }
-    
-    
 }

@@ -18,6 +18,11 @@ class Vector2D {
         self.y = y
     }
     
+    init(cgPoint: CGPoint) {
+        self.x = cgPoint.x
+        self.y = cgPoint.y
+    }
+    
     func add(vector: Vector2D){
         x += vector.x
         y += vector.y

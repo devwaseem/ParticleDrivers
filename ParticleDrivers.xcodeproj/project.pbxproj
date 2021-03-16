@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		750DF7B125FFBE9A00C8BEEB /* UIImage + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750DF7B025FFBE9A00C8BEEB /* UIImage + Extensions.swift */; };
+		752A9B68260126A800C8227B /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752A9B67260126A800C8227B /* Particle.swift */; };
 		75827F7E25FE96B800B038AD /* ParticleDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75827F7D25FE96B800B038AD /* ParticleDriver.swift */; };
 		75B69EA325FEA30B0052A7FE /* Vector2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B69EA225FEA30B0052A7FE /* Vector2D.swift */; };
 		75BA893425FE3521002AF1E1 /* ParticleDriversApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA893325FE3521002AF1E1 /* ParticleDriversApp.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		750DF7B025FFBE9A00C8BEEB /* UIImage + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extensions.swift"; sourceTree = "<group>"; };
+		752A9B67260126A800C8227B /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
 		75827F7D25FE96B800B038AD /* ParticleDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleDriver.swift; sourceTree = "<group>"; };
 		75B69EA225FEA30B0052A7FE /* Vector2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2D.swift; sourceTree = "<group>"; };
 		75BA893025FE3521002AF1E1 /* ParticleDrivers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleDrivers.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 				75827F7D25FE96B800B038AD /* ParticleDriver.swift */,
 				75B69EA225FEA30B0052A7FE /* Vector2D.swift */,
 				750DF7B025FFBE9A00C8BEEB /* UIImage + Extensions.swift */,
+				752A9B67260126A800C8227B /* Particle.swift */,
 			);
 			path = ParticleDrivers;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 				75BA893625FE3521002AF1E1 /* ContentView.swift in Sources */,
 				750DF7B125FFBE9A00C8BEEB /* UIImage + Extensions.swift in Sources */,
 				75BA893425FE3521002AF1E1 /* ParticleDriversApp.swift in Sources */,
+				752A9B68260126A800C8227B /* Particle.swift in Sources */,
 				75BA894425FE4D9D002AF1E1 /* glyphtest.swift in Sources */,
 				75827F7E25FE96B800B038AD /* ParticleDriver.swift in Sources */,
 				75B69EA325FEA30B0052A7FE /* Vector2D.swift in Sources */,

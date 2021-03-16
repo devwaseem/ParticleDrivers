@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ParticleView: View {
     
@@ -15,7 +16,6 @@ struct ParticleView: View {
     var body: some View {
         Color.primary
             .frame(width: 2, height: 2)
-//            .clipShape(Circle())
             .position(x: x, y: y)
         
     }
@@ -24,8 +24,10 @@ struct ParticleView: View {
 
 struct ContentView: View {
     
+    var templates: [String]
+    @State var index = -1
+    @State var isGravityEnabled = false
     @ObservedObject var particleDriver: ParticleDriver
-    @State var k = 0
     
     var body: some View {
         GeometryReader { geometry in
@@ -36,34 +38,49 @@ struct ContentView: View {
                     }
                 }
                 .drawingGroup()
-//                .background(Color.red)
                 
-                Button(action: {
-                    if k % 5 == 0 {
-                        particleDriver.changeTarget(key: "apple")
-                    }else if k % 5 == 1 {
-                        particleDriver.changeTarget(key: "create")
-                    }else if k % 5 == 2 {
-                        particleDriver.changeTarget(key: "design")
-                    }else if k % 5 == 3 {
-                        particleDriver.changeTarget(key: "swiftui")
-                    }else if k % 5 == 4 {
-                        particleDriver.changeTarget(key: "waseem")
+                VStack {
+                    Spacer()
+                    HStack {
+                        Text("Views count:")
+                        Spacer()
+                        Text("\(particleDriver.particles.count)")
                     }
-                    k += 1
-                }, label: {
-                    Text("Change")
-                })
+                    .padding()
+                    Toggle("Fall down", isOn: $isGravityEnabled)
+                        .onReceive(Just(isGravityEnabled), perform: { _ in
+                            particleDriver.spreadMode = isGravityEnabled ? .fall : .scatter
+                        })
+                        .padding()
+                    Button(action: {
+                        index += 1
+                        let target = templates[(index) % templates.count]
+                        particleDriver.changeTarget(key: target)
+                    }, label: {
+                        VStack{
+                            Text("Next")
+                                .foregroundColor(Color.white)
+                        }
+                        .padding(24)
+                        .background(Color.blue)
+                        .cornerRadius(16)
+                    })
+                }
                 Spacer()
-            }.onAppear {
+            }
+            .gesture(DragGesture().onChanged({ value in
+                particleDriver.isDragging = true
+                particleDriver.draggedLocation = value.location
+            }).onEnded({ value in
+                particleDriver.isDragging = false
+            }))
+            .onAppear {
                 particleDriver.setSystem(size: geometry.size)
-                particleDriver.addTarget(key: "waseem", image: UIImage(named: "waseem")!)
-                particleDriver.addTarget(key: "apple", image: UIImage(named: "apple")!)
-                particleDriver.addTarget(key: "create", image: UIImage(named: "create")!)
-                particleDriver.addTarget(key: "design", image: UIImage(named: "design")!)
-                particleDriver.addTarget(key: "swiftui", image: UIImage(named: "swiftui")!)
+                for template in templates {
+                    particleDriver.addTarget(key: template, image: UIImage(named: template)!)
+                }
+                particleDriver.spreadMode = isGravityEnabled ? .fall : .scatter
                 particleDriver.makeParticlesScatter()
-//                particleDriver.targetAddDidComplete()
                 particleDriver.start()
             }
         }
@@ -72,6 +89,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(particleDriver: ParticleDriver())
+        ContentView(templates: [], particleDriver: ParticleDriver())
     }
 }
