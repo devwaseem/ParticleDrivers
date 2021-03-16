@@ -11,7 +11,8 @@ import SwiftUI
 struct ParticleDriversApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(templates: ["apple", "onemorething", "wwdc2021", "swiftui","waseem"], particleDriver: ParticleDriver())
+//            ContentView(templates: ["apple", "onemorething", "wwdc2021" ,"create", "design", "learn", "swiftui","waseem"], particleDriver: ParticleDriver())
+            ContentView(templates: ["apple", "onemorething", "wwdc2021" ,"ios", "ipados", "macos", "watchos", "tvos", "waseem"], particleDriver: ParticleDriver())
         }
     }
 }
