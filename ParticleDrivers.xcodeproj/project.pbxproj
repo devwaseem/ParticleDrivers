@@ -15,7 +15,6 @@
 		75BA893625FE3521002AF1E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA893525FE3521002AF1E1 /* ContentView.swift */; };
 		75BA893825FE3522002AF1E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75BA893725FE3522002AF1E1 /* Assets.xcassets */; };
 		75BA893B25FE3522002AF1E1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75BA893A25FE3522002AF1E1 /* Preview Assets.xcassets */; };
-		75BA894425FE4D9D002AF1E1 /* glyphtest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA894325FE4D9D002AF1E1 /* glyphtest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +28,6 @@
 		75BA893725FE3522002AF1E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75BA893A25FE3522002AF1E1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		75BA893C25FE3522002AF1E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		75BA894325FE4D9D002AF1E1 /* glyphtest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = glyphtest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +65,6 @@
 				75BA893725FE3522002AF1E1 /* Assets.xcassets */,
 				75BA893C25FE3522002AF1E1 /* Info.plist */,
 				75BA893925FE3522002AF1E1 /* Preview Content */,
-				75BA894325FE4D9D002AF1E1 /* glyphtest.swift */,
 				75827F7D25FE96B800B038AD /* ParticleDriver.swift */,
 				75B69EA225FEA30B0052A7FE /* Vector2D.swift */,
 				750DF7B025FFBE9A00C8BEEB /* UIImage + Extensions.swift */,
@@ -157,7 +154,6 @@
 				750DF7B125FFBE9A00C8BEEB /* UIImage + Extensions.swift in Sources */,
 				75BA893425FE3521002AF1E1 /* ParticleDriversApp.swift in Sources */,
 				752A9B68260126A800C8227B /* Particle.swift in Sources */,
-				75BA894425FE4D9D002AF1E1 /* glyphtest.swift in Sources */,
 				75827F7E25FE96B800B038AD /* ParticleDriver.swift in Sources */,
 				75B69EA325FEA30B0052A7FE /* Vector2D.swift in Sources */,
 			);

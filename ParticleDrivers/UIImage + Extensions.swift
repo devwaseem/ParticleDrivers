@@ -10,8 +10,6 @@ import UIKit
 extension UIImage {
     
     func getPixels() -> [[Int]] {
-//        let image = UIImage(named: "apple.png")!.resizeImage(targetSize: CGSize(width: 400, height: 400))
-        
         guard let cgImage = self.cgImage,
               let data = cgImage.dataProvider?.data,
               let bytes = CFDataGetBytePtr(data) else {
@@ -23,7 +21,6 @@ extension UIImage {
             for x in 0 ..< cgImage.width {
                 let offset = (y * cgImage.bytesPerRow) + (x * bytesPerPixel)
                 let components = (r: bytes[offset], g: bytes[offset + 1], b: bytes[offset + 2])
-//                print("[x:\(x), y:\(y)] \(components)")
                 pixelMap[x][y] = Int((components.r + components.g + components.b)/3)
             }
             

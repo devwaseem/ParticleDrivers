@@ -22,9 +22,9 @@ class Particle: Identifiable {
     var maxForce: CGFloat = 3
     
     init(position: Vector2D, target: Vector2D) {
-        self.position = Vector2D(x: position.x, y: position.y)
-        self.originalTarget = Vector2D(x: target.x, y: target.y)
-        self.currentTarget = Vector2D(x: target.x, y: target.y)
+        self.position = position.copy()
+        self.originalTarget = target.copy()
+        self.currentTarget = target.copy()
         self.velocity = .zero()
         self.acceleration = .zero()
     }
@@ -55,7 +55,6 @@ class Particle: Identifiable {
             desired.multiply(scalar: -1)
             let steer = Vector2D.Subtract(desired, velocity)
             steer.limit(max: maxForce)
-//            steer.multiply(scalar: 2)
             apply(force: steer)
         }
     }
@@ -71,11 +70,11 @@ class Particle: Identifiable {
     }
     
     func resetTarget(){
-        currentTarget = Vector2D(x: originalTarget.x, y: originalTarget.y)
+        currentTarget = originalTarget.copy()
     }
     
     func changeTarget(target: Vector2D) {
-        currentTarget = Vector2D(x: target.x, y: target.y)
+        currentTarget = target.copy()
     }
     
 }

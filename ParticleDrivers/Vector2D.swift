@@ -68,6 +68,10 @@ class Vector2D {
     }
     
     
+    func copy() -> Vector2D {
+        return Vector2D(x: x, y: y)
+    }
+    
     //MARK: - Static functions
     static func zero() -> Vector2D {
         return Vector2D(x: 0, y: 0)
