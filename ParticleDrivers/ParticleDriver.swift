@@ -57,12 +57,6 @@ class ParticleDriver: ObservableObject {
                 }
             }
         }
-        if(newTargets.count > totalTargets) {
-            let particlesNeeded = newTargets.count - totalTargets
-            for _ in 0 ..< particlesNeeded {
-                particles.append(Particle(position: Vector2D.Random(lower: 0, upper: systemSize.width), target: Vector2D(x: CGFloat.random(in: 0..<systemSize.width), y: systemSize.height)))
-            }
-        }
         
         targets[key] = newTargets
     }
@@ -72,6 +66,12 @@ class ParticleDriver: ObservableObject {
     }
     
     func start() {
+        for _ in 0 ..< totalTargets {
+            particles.append(Particle(position: Vector2D.Random(lower: 0, upper: systemSize.width), target: Vector2D(x: CGFloat.random(in: 0..<systemSize.width), y: systemSize.height)))
+            //uncomment the next to make particles stick to horizontal borders.
+//            particles.append(Particle(position: Vector2D.Random(lower: 0, upper: systemSize.width), target: Vector2D(x: (Double.random(in: 0...1) > 0.5 ? 0 : systemSize.width), y: CGFloat.random(in: 0..<systemSize.width))))
+        }
+        //start displaylink
         displayLink?.isPaused = false
     }
     
